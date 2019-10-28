@@ -1,9 +1,9 @@
 //PVector pointsPenta = new PVector();
 PVector[] pointsPenta = new PVector[5]; // Declare, create
-int radio = 60;
+
 float radioCircle = 60;
 float radioCircleBase = 60;
-int angleRotGeneral = 170;
+int angleRotGeneral = 55;//invert pentagon 170;
 
 //Diag
 int strW_bk = 3;
@@ -14,7 +14,7 @@ int endY;
 void setup() {
   size(640, 360);
   noFill();
-  drawPolygon(0, 0, radio, 5);  // Penta
+  drawPolygon(0, 0, radioCircleBase, 5);  // Penta
 
   ///
   colorMode(HSB, 100);
@@ -114,6 +114,7 @@ void drawMyPoly() {
   popMatrix();
 }  
 
+//==============================================
 void mousePressed() {
   radioCircle = map(mouseX, 0, width, radioCircleBase, radioCircleBase*2+20); 
   createNewScene();
