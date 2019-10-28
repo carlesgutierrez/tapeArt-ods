@@ -1,3 +1,5 @@
+Boolean bMobileMode = false;
+
 //PVector pointsPenta = new PVector();
 
 float scale = 3;
@@ -24,184 +26,179 @@ int endY;
 
 void setup() {
 
-//size(640, 360);
+  size(640, 360);
+  
+  if(bMobileMode == false){
+    scale = 1;
+    radioCircleBase = 60*scale;
+  }else {
+    scale = 3;
+    radioCircleBase = 60*scale;
+  }
 
-noFill();
+  noFill();
 
-drawPolygon(0, 0, radioCircleBase, 5); // Penta
+  drawPolygon(0, 0, radioCircleBase, 5); // Penta
 
-///
+  ///
 
-colorMode(HSB, 100);
+  colorMode(HSB, 100);
 
-frameRate(5);
+  frameRate(5);
 
-endY = height;
+  endY = height;
 
-/////
+  /////
 
-createNewScene();
-
+  createNewScene();
 }
 
 //==============================================
 
 void createNewScene() {
 
-background(0, 0, 20);
+  background(0, 0, 20);
 
-//radioCircle = radioCircleBase*2+20; //Circles in the pentagon...
+  //radioCircle = radioCircleBase*2+20; //Circles in the pentagon...
 
-radioCircle = radioCircleBase*2;
+  radioCircle = radioCircleBase*2;
 
-println("createNewScene with radioCircle = "+str(radioCircle));
+  println("createNewScene with radioCircle = "+str(radioCircle));
 
-drawBkDiagonals();
+  drawBkDiagonals();
 
-drawMyPoly();
+  drawMyPoly();
 
-drawCirclesPoly();
-
+  drawCirclesPoly();
 }
 
 //==============================================
 
 void draw() {
 
-///////////
+  ///////////
 
-//All done just once at setup
-
+  //All done just once at setup
 }
 
 //==============================================
 
 void drawBkDiagonals() {
 
-noFill();
+  noFill();
 
-//////
+  //////
 
-int deltaDiagonal = height + height*2;
+  int deltaDiagonal = height + height*2;
 
-float gapY = 30*scale;
+  float gapY = 30*scale;
 
-int initY = -deltaDiagonal;
+  int initY = -deltaDiagonal;
 
-for (int y = initY; y < endY; y+=gapY) {
+  for (int y = initY; y < endY; y+=gapY) {
 
-stroke(random(0, 256), random(0, 256), 240);
+    stroke(random(0, 256), random(0, 256), 240);
 
-strokeWeight(strW_bk);
+    strokeWeight(strW_bk);
 
-line(0, y+deltaDiagonal, width, y);
+    line(0, y+deltaDiagonal, width, y);
 
-//line(0, y, width, y+deltaDiagonal);
+    //line(0, y, width, y+deltaDiagonal);
+  }
 
-}
+  /*
 
-/*
-
-endY += 10;
-
-if (endY > height) {
-
-endY = 0;
-
-}*/
-
+   endY += 10;
+   
+   if (endY > height) {
+   
+   endY = 0;
+   
+   }*/
 }
 
 //==============================================
 
 void drawPolygon(float x, float y, float radius, int npoints) {
 
-float angle = TWO_PI / npoints;
+  float angle = TWO_PI / npoints;
 
-beginShape();
+  beginShape();
 
-int counter = 0;
+  int counter = 0;
 
-for (float a = 0; a < TWO_PI; a += angle) {
+  for (float a = 0; a < TWO_PI; a += angle) {
 
-float sx = x + cos(a) * radius;
+    float sx = x + cos(a) * radius;
 
-float sy = y + sin(a) * radius;
+    float sy = y + sin(a) * radius;
 
-vertex(sx, sy);
+    vertex(sx, sy);
 
-PVector auxVec = new PVector(sx, sy);
+    PVector auxVec = new PVector(sx, sy);
 
-pointsPenta[counter] = auxVec;
+    pointsPenta[counter] = auxVec;
 
-counter++;
+    counter++;
+  }
 
-}
-
-endShape(CLOSE);
-
+  endShape(CLOSE);
 }
 
 //==============================================
 
 void drawCirclesPoly() {
 
-pushMatrix();
+  pushMatrix();
 
-translate(width*0.5, height*0.5);
+  translate(width*0.5, height*0.5);
 
-rotate(angleRotGeneral);
+  rotate(angleRotGeneral);
 
-for (int i=0; i<pointsPenta.length; i++) {
+  for (int i=0; i<pointsPenta.length; i++) {
 
-stroke(100, 0, 100);
+    stroke(100, 0, 100);
 
-fill(random(0, 200), random(0, 200), 200, 50);
+    fill(random(0, 200), random(0, 200), 200, 50);
 
-//circle(pointsPenta[i].x, pointsPenta[i].y, radioCircle);
-ellipse(pointsPenta[i].x, pointsPenta[i].y, radioCircle, radioCircle);
+    //circle(pointsPenta[i].x, pointsPenta[i].y, radioCircle);
+    ellipse(pointsPenta[i].x, pointsPenta[i].y, radioCircle, radioCircle);
+  }
 
-}
-
-popMatrix();
-
+  popMatrix();
 } 
 
 //==============================================
 
 void drawMyPoly() {
 
-pushMatrix();
+  pushMatrix();
 
-translate(width*0.5, height*0.5);
+  translate(width*0.5, height*0.5);
 
-rotate(angleRotGeneral);
+  rotate(angleRotGeneral);
 
-stroke(100, 100, 0);
+  stroke(100, 100, 0);
 
-noFill();
+  noFill();
 
-beginShape();
+  beginShape();
 
-for (int i=0; i<pointsPenta.length; i++) {
+  for (int i=0; i<pointsPenta.length; i++) {
 
-vertex(pointsPenta[i].x, pointsPenta[i].y);
+    vertex(pointsPenta[i].x, pointsPenta[i].y);
+  }
 
-}
+  endShape(CLOSE);
 
-endShape(CLOSE);
-
-popMatrix();
-
+  popMatrix();
 } 
 
 //==============================================
 
 void mousePressed() {
 
-radioCircle = map(mouseX, 0, width, radioCircleBase, radioCircleBase*2+20); 
+  radioCircle = map(mouseX, 0, width, radioCircleBase, radioCircleBase*2+20); 
 
-createNewScene();
-
+  createNewScene();
 }
-
